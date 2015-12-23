@@ -37,14 +37,16 @@ class SubscribeTest(TestCase):
         form = self.resp.context['form']
         self.assertSequenceEqual(['name', 'cpf', 'email', 'phone'], list(form.fields))
 
+
 class SubscribePostTest(TestCase):
     def setUp(self):
         data = dict(name='Adriano Regis', cpf='1234567891',
                     email='adbrum@outlook.com', phone='96608-0448')
         self.resp = self.client.post('/inscricao/', data)
+
     def test_post(self):
         """Valid POST should redirect to /inscricao/"""
-        self.assertEqual(302, self.resp.status_code)#302 redirection
+        self.assertEqual(302, self.resp.status_code)  # 302 redirection
 
     def test_send_subscribe_mail(self):
         self.assertEqual(1, len(mail.outbox))
@@ -75,9 +77,11 @@ class SubscribePostTest(TestCase):
         self.assertIn('adbrum@outlook.com', email.body)
         self.assertIn('96608-0448', email.body)
 
+
 class SUbscribeInvalidPost(TestCase):
     def setUp(self):
         self.resp = self.client.post('/inscricao/', {})
+
     def test_post(self):
         """Invalid POST should not redirect"""
         self.assertEqual(200, self.resp.status_code)
