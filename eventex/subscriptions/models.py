@@ -1,4 +1,17 @@
 from django.db import models
+from hashlib import sha1
+from random import SystemRandom
+from uuid import uuid4
+
+char = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+
+def hash_(size=15, chars=char):
+    word = ''.join(SystemRandom().choice(chars) for _ in range(size))
+    '''uuid is used to generate a random number'''
+    salt = uuid4().hex
+    key_hash = sha1(salt.encode() + word.encode()).hexdigest()
+    return key_hash
 
 
 class Subscription(models.Model):
@@ -8,6 +21,7 @@ class Subscription(models.Model):
     phone = models.CharField('telefone', max_length=20)
     created_at = models.DateTimeField('criado em', auto_now_add=True)
     paid = models.BooleanField('pago', default=False)
+    key_hash = models.CharField('hash', max_length=40, default=hash_)
 
     class Meta:
         verbose_name_plural = 'inscrições'
