@@ -35,12 +35,12 @@ def create(request):
                'subscriptions/subscription_email.txt',
                {'subscription': subscription})
 
-    return HttpResponseRedirect(r('subscriptions:detail', subscription.key_hash))
+    return HttpResponseRedirect(r('subscriptions:detail', subscription.pk))
 
 
-def detail(request, key_hash):
+def detail(request, pk):
     try:
-        subscription = Subscription.objects.get(key_hash=key_hash)
+        subscription = Subscription.objects.get(pk=pk)
     except Subscription.DoesNotExist:
         raise Http404
 

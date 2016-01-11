@@ -10,46 +10,44 @@ class SubscriptionsNewGet(TestCase):
         self.resp = self.client.get(r('subscriptions:new'))
 
     def test_get(self):
-        """Get /inscricao/ must return status code 200"""
+        """Get /inscrição/ must return code 200 """
         self.assertEqual(200, self.resp.status_code)
 
     def test_template(self):
-        """Must use subscriptions/subscription_form.html"""
+        """Must use sbscription/subscription_form.html"""
         self.assertTemplateUsed(self.resp, 'subscriptions/subscription_form.html')
 
     def test_html(self):
-        """Html must contain input tags"""
+        """HTML must contain input tags"""
         tags = (('<form', 1),
                 ('<input', 6),
                 ('type="text"', 3),
                 ('type="email"', 1),
                 ('type="submit"', 1))
-
         for text, count in tags:
             with self.subTest():
                 self.assertContains(self.resp, text, count)
 
     def test_csrf(self):
-        """Html must contain csrf"""
+        """Html must contains csrf"""
         self.assertContains(self.resp, 'csrfmiddlewaretoken')
 
-    def test_res_form(self):
-        """Context must have subscription"""
+    def test_has_form(self):
+        """Context must have subscription form"""
         form = self.resp.context['form']
         self.assertIsInstance(form, SubscriptionForm)
 
 
 class SubscriptionsNewPostValid(TestCase):
     def setUp(self):
-        data = dict(name='Adriano Regis', cpf='1234567891',
-                    email='adbrum@outlook.com', phone='96608-0448')
+        data = dict(name='CAdriano Leal', cpf='12345678901', email='adbrum@outlook.com', phone='+351-9660804480')
         self.resp = self.client.post(r('subscriptions:new'), data)
 
-    # def test_post(self):
-    #     """Valid POST should redirect to /inscricao/"""
-    #     self.assertRedirects(self.resp, r('subscriptions:detail', 1))
+    def test_post(self):
+        """Valid POST should redirect to /inscricao/1/"""
+        self.assertRedirects(self.resp, r('subscriptions:detail', 1))
 
-    def test_send_subscribe_mail(self):
+    def test_send_subscribe_email(self):
         self.assertEqual(1, len(mail.outbox))
 
     def test_save_subscription(self):
@@ -71,7 +69,7 @@ class SubscriptionsNewPostInvalid(TestCase):
         form = self.resp.context['form']
         self.assertIsInstance(form, SubscriptionForm)
 
-    def test_form_has_erros(self):
+    def test_form_has_errors(self):
         form = self.resp.context['form']
         self.assertTrue(form.errors)
 
