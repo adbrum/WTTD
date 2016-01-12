@@ -1,12 +1,14 @@
+import string
+
 from django.db import models
 from hashlib import sha1
 from random import SystemRandom
 from uuid import uuid4
 
-char = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+CHAR = string.ascii_lowercase + string.digits + string.ascii_uppercase
 
 
-def hash_(size=15, chars=char):
+def hash_(size=15, chars=CHAR):
     word = ''.join(SystemRandom().choice(chars) for _ in range(size))
     '''uuid is used to generate a random number'''
     salt = uuid4().hex
