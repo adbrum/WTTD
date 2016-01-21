@@ -62,7 +62,11 @@
                 {% for speake in speakers %}
                 <div class="desktop-4">
                     <img src="{{ speake.photo }}">
-                    <h4>{{ speake.name }}</h4>
+                    <h4>
+                        <a href="{{ speake.get_absolute_url }}">
+                            {{ speake.name }}
+                        </a>
+                    </h4>
                 </div>
                 {% endfor %}
             </div>
