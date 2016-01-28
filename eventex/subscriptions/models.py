@@ -1,5 +1,6 @@
 import string
 from django.db import models
+from django.shortcuts import resolve_url as r
 from hashlib import sha1
 from random import SystemRandom
 from uuid import uuid4
@@ -33,3 +34,6 @@ class Subscription(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return r('subscriptions:detail', self.key_hash)

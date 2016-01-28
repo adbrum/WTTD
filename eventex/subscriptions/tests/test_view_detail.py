@@ -11,7 +11,7 @@ class SubscriptionDetailGet(TestCase):
             email='adbrum@outlook.com',
             phone='966080448'
         )
-        self.resp = self.client.get(r('subscriptions:detail', self.obj.key_hash))
+        self.resp = self.client.get(r('subscriptions:detail', self.obj.pk))#self.obj.key_hash - utilização do hash na url
 
     def test_get(self):
         self.assertEqual(200, self.resp.status_code)
