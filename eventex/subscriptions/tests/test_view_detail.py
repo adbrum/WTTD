@@ -11,7 +11,7 @@ class SubscriptionDetailGet(TestCase):
             email='adbrum@outlook.com',
             phone='966080448'
         )
-        self.resp = self.client.get(r('subscriptions:detail', self.obj.pk))#self.obj.key_hash - utilização do hash na url
+        self.resp = self.client.get(r('subscriptions:detail', self.obj.pk, self.obj.key_hash))#self.obj.key_hash - utilização do hash na url
 
     def test_get(self):
         self.assertEqual(200, self.resp.status_code)
@@ -33,5 +33,5 @@ class SubscriptionDetailGet(TestCase):
 
 class SubscriptionDetailNotFound(TestCase):
     def test_not_found(self):
-        resp = self.client.get(r('subscriptions:detail', 0))
+        resp = self.client.get(r('subscriptions:detail', 0, 'cb16a0c8c9946bf7b49bfeecea7a52f82306e5146'))
         self.assertEqual(404, resp.status_code)
