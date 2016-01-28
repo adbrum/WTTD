@@ -11,8 +11,8 @@ class Speaker(models.Model):
     description = models.TextField('descrição', blank=True)
 
     class Meta:
-        verbose_name = 'palestrante'
         verbose_name_plural = 'palestrantes'
+        verbose_name = 'palestrante'
 
     def __str__(self):
         return self.name
@@ -35,14 +35,14 @@ class Contact(models.Model):
     objects = KindQuerySet.as_manager()
 
     class Meta:
-        verbose_name = 'contato'
         verbose_name_plural = 'contatos'
+        verbose_name = 'contato'
 
     def __str__(self):
         return self.value
 
 
-class Activity(models.Model):
+class Talk(models.Model):
     title = models.CharField('título', max_length=200)
     start = models.TimeField('início', blank=True, null=True)
     description = models.TextField('descrição', blank=True)
@@ -51,20 +51,18 @@ class Activity(models.Model):
     objects = PeriodManager()
 
     class Meta:
-        abstract = True
-        verbose_name = 'palestra'
+        ordering = ['start']
         verbose_name_plural = 'palestras'
+        verbose_name = 'palestra'
 
     def __str__(self):
         return self.title
 
 
-class Talk(Activity):
-    pass
-
-
-class Course(Activity):
+class Course(Talk):
     slots = models.IntegerField()
+
+    objects = PeriodManager()
 
     class Meta:
         verbose_name = 'curso'
