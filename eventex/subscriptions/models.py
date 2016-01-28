@@ -36,4 +36,4 @@ class Subscription(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return r('subscriptions:detail', self.key_hash)
+        return r('subscriptions:detail', self.pk, self.key_hash)

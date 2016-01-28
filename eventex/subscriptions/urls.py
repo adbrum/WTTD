@@ -3,5 +3,6 @@ from eventex.subscriptions.views import new, detail
 
 urlpatterns = [
     url(r'^$', new, name='new'),
-    url(r'^(?P<pk>\w+)/$', detail, name='detail'),
+    url(r'^(?P<pk>\d+)c(\w+)/$', detail, name='detail'),
+
 ]
